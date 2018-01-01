@@ -1,66 +1,65 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="Docutils 0.14: http://docutils.sourceforge.net/" />
-<title>From Python to Numpy</title>
-<meta content="An open-source book about numpy vectorization techniques, based on experience, practice and descriptive examples" name="description" />
-<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" />
-<link rel="stylesheet" href="book.css" type="text/css" />
-<link rel="stylesheet" href="math.css" type="text/css" />
-</head>
-<body>
-<div class="document" id="from-python-to-numpy">
-<h1 class="title">From Python to Numpy</h1>
-<h2 class="subtitle" id="copyright-c-2017-nicolas-p-rougier-nicolas-rougier-inria-fr">Copyright (c) 2017 - Nicolas P. Rougier &lt;<a class="reference external" href="mailto:Nicolas&#46;Rougier&#37;&#52;&#48;inria&#46;fr">Nicolas<span>&#46;</span>Rougier<span>&#64;</span>inria<span>&#46;</span>fr</a>&gt;</h2>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!-- Title:   From Python to Numpy -->
-<!-- Author:  Nicolas P. Rougier -->
-<!-- Date:    January 2017 -->
-<!-- License: Creative Commons Share-Alike Non-Commercial International 4.0 -->
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<div class="title-logos docutils container">
-<img alt="data/cc.large.png" src="data/cc.large.png" style="width: 40px;" />
-<img alt="data/by.large.png" src="data/by.large.png" style="width: 40px;" />
-<img alt="data/sa.large.png" src="data/sa.large.png" style="width: 40px;" />
-<img alt="data/nc.large.png" src="data/nc.large.png" style="width: 40px;" />
-<div class="line-block">
-<div class="line"><br /></div>
-<div class="line">Latest version - October 2017</div>
-<div class="line">DOI: <a class="reference external" href="http://doi.org/10.5281/zenodo.225783">10.5281/zenodo.225783</a></div>
-</div>
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<div class="title-logos docutils container">
-<img alt="data/cubes.png" src="data/cubes.png" style="width: 100%;" />
-</div>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<p>There are already a fair number of books about Numpy (see <a class="reference internal" href="#bibliography">Bibliography</a>) and a
-legitimate question is to wonder if another book is really necessary. As you
-may have guessed by reading these lines, my personal answer is yes, mostly
-because I think there is room for a different approach concentrating on the
-migration from Python to Numpy through vectorization. There are a lot of
-techniques that you don't find in books and such techniques are mostly learned
-through experience. The goal of this book is to explain some of these
-techniques and to provide an opportunity for making this experience in the
-process.</p>
-<p><strong>Website:</strong> <a class="reference external" href="http://www.labri.fr/perso/nrougier/from-python-to-numpy">http://www.labri.fr/perso/nrougier/from-python-to-numpy</a></p>
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<div class="contents main-content topic" id="table-of-contents">
-<p class="topic-title first"><strong>Table of Contents</strong></p>
-<ul class="simple">
-<li><a class="reference internal" href="#preface" id="id62">Preface</a><ul>
-<li><a class="reference internal" href="#about-the-author" id="id63">About the author</a></li>
-<li><a class="reference internal" href="#about-this-book" id="id64">About this book</a></li>
-<li><a class="reference internal" href="#license" id="id65">License</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#introduction" id="id66">Introduction</a><ul>
-<li><a class="reference internal" href="#simple-example" id="id67">Simple example</a></li>
-<li><a class="reference internal" href="#readability-vs-speed" id="id68">Readability vs speed</a></li>
-</ul>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="generator" content="Docutils 0.14: http://docutils.sourceforge.net/" />
+        <title>From Python to Numpy</title>
+        <meta content="An open-source book about numpy vectorization techniques, based on experience, practice and descriptive examples" name="description" />
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" />
+        <link rel="stylesheet" href="book.css" type="text/css" />
+        <link rel="stylesheet" href="math.css" type="text/css" />
+    </head>
+    <body>
+        <div class="document" id="from-python-to-numpy">
+            <h1 class="title">From Python to Numpy</h1>
+            <h2 class="subtitle" id="copyright-c-2017-nicolas-p-rougier-nicolas-rougier-inria-fr">Copyright (c) 2017 - Nicolas P. Rougier &lt;<a class="reference external" href="mailto:Nicolas&#46;Rougier&#37;&#52;&#48;inria&#46;fr">Nicolas<span>&#46;</span>Rougier<span>&#64;</span>inria<span>&#46;</span>fr</a>&gt;</h2>
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <!-- Title:   From Python to Numpy -->
+            <!-- Author:  Nicolas P. Rougier -->
+            <!-- Date:    January 2017 -->
+            <!-- License: Creative Commons Share-Alike Non-Commercial International 4.0 -->
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="title-logos docutils container">
+                <img alt="data/cc.large.png" src="data/cc.large.png" style="width: 40px;" />
+                <img alt="data/by.large.png" src="data/by.large.png" style="width: 40px;" />
+                <img alt="data/sa.large.png" src="data/sa.large.png" style="width: 40px;" />
+                <img alt="data/nc.large.png" src="data/nc.large.png" style="width: 40px;" />
+                <div class="line-block">
+                    <div class="line"><br /></div>
+                    <div class="line">Latest version - October 2017</div>
+                    <div class="line">DOI: <a class="reference external" href="http://doi.org/10.5281/zenodo.225783">10.5281/zenodo.225783</a></div>
+                </div>
+            </div>
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <div class="title-logos docutils container">
+                <img alt="data/cubes.png" src="data/cubes.png" style="width: 100%;" />
+            </div>
+            <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+            <p>There are already a fair number of books about Numpy (see <a class="reference internal" href="#bibliography">Bibliography</a>) and a
+            legitimate question is to wonder if another book is really necessary. As you
+            may have guessed by reading these lines, my personal answer is yes, mostly
+            because I think there is room for a different approach concentrating on the
+            migration from Python to Numpy through vectorization. There are a lot of
+            techniques that you don't find in books and such techniques are mostly learned
+            through experience. The goal of this book is to explain some of these
+            techniques and to provide an opportunity for making this experience in the
+        process.</p>
+        <p><strong>Website:</strong> <a class="reference external" href="http://www.labri.fr/perso/nrougier/from-python-to-numpy">http://www.labri.fr/perso/nrougier/from-python-to-numpy</a></p>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <div class="contents main-content topic" id="table-of-contents">
+            <p class="topic-title first"><strong>Table of Contents</strong></p>
+            <ul class="simple">
+                <li><a class="reference internal" href="#preface" id="id62">Preface</a><ul>
+                <li><a class="reference internal" href="#about-the-author" id="id63">About the author</a></li>
+                <li><a class="reference internal" href="#about-this-book" id="id64">About this book</a></li>
+                <li><a class="reference internal" href="#license" id="id65">License</a></li>
+            </ul>
+        </li>
+        <li><a class="reference internal" href="#introduction" id="id66">Introduction</a><ul>
+        <li><a class="reference internal" href="#simple-example" id="id67">Simple example</a></li>
+        <li><a class="reference internal" href="#readability-vs-speed" id="id68">Readability vs speed</a></li>
+    </ul>
 </li>
 <li><a class="reference internal" href="#anatomy-of-an-array" id="id69">Anatomy of an array</a><ul>
 <li><a class="reference internal" href="#id5" id="id70">Introduction</a></li>
@@ -291,13 +290,11 @@ it's readable, but it is slow:</p>
 <span class="keyword">class</span> <span class="name class">RandomWalker</span><span class="punctuation">:</span>
     <span class="keyword">def</span> <span class="name function magic">__init__</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">):</span>
         <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">position</span> <span class="operator">=</span> <span class="literal number integer">0</span>
-
     <span class="keyword">def</span> <span class="name function">walk</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">,</span> <span class="name">n</span><span class="punctuation">):</span>
         <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">position</span> <span class="operator">=</span> <span class="literal number integer">0</span>
         <span class="keyword">for</span> <span class="name">i</span> <span class="operator word">in</span> <span class="name builtin">range</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">):</span>
             <span class="keyword">yield</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">position</span>
             <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">position</span> <span class="operator">+=</span> <span class="literal number integer">2</span><span class="operator">*</span><span class="name">random</span><span class="operator">.</span><span class="name">randint</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span> <span class="operator">-</span> <span class="literal number integer">1</span>
-
 <span class="name">walker</span> <span class="operator">=</span> <span class="name">RandomWalker</span><span class="punctuation">()</span>
 <span class="name">walk</span> <span class="operator">=</span> <span class="punctuation">[</span><span class="name">position</span> <span class="keyword">for</span> <span class="name">position</span> <span class="operator word">in</span> <span class="name">walker</span><span class="operator">.</span><span class="name">walk</span><span class="punctuation">(</span><span class="literal number integer">1000</span><span class="punctuation">)]</span>
 </pre>
@@ -320,7 +317,6 @@ each random step.</p>
         <span class="name">position</span> <span class="operator">+=</span> <span class="literal number integer">2</span><span class="operator">*</span><span class="name">random</span><span class="operator">.</span><span class="name">randint</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span><span class="operator">-</span><span class="literal number integer">1</span>
         <span class="name">walk</span><span class="operator">.</span><span class="name">append</span><span class="punctuation">(</span><span class="name">position</span><span class="punctuation">)</span>
     <span class="keyword">return</span> <span class="name">walk</span>
-
 <span class="name">walk</span> <span class="operator">=</span> <span class="name">random_walk</span><span class="punctuation">(</span><span class="literal number integer">1000</span><span class="punctuation">)</span>
 </pre>
 <p>This new method saves some CPU cycles but not that much because this function
@@ -343,7 +339,6 @@ loop:</p>
     <span class="comment single"># Only available from Python 3.6</span>
     <span class="name">steps</span> <span class="operator">=</span> <span class="name">random</span><span class="operator">.</span><span class="name">choices</span><span class="punctuation">([</span><span class="operator">-</span><span class="literal number integer">1</span><span class="punctuation">,</span><span class="operator">+</span><span class="literal number integer">1</span><span class="punctuation">],</span> <span class="name">k</span><span class="operator">=</span><span class="name">n</span><span class="punctuation">)</span>
     <span class="keyword">return</span> <span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span><span class="operator">+</span><span class="name builtin">list</span><span class="punctuation">(</span><span class="name">accumulate</span><span class="punctuation">(</span><span class="name">steps</span><span class="punctuation">))</span>
-
  <span class="name">walk</span> <span class="operator">=</span> <span class="name">random_walk_faster</span><span class="punctuation">(</span><span class="literal number integer">1000</span><span class="punctuation">)</span>
 </pre>
 <p>In fact, we've just <em>vectorized</em> our function. Instead of looping for picking
@@ -364,7 +359,6 @@ super simple. We just have to translate itertools call into NumPy ones.</p>
     <span class="comment single"># No 's' in NumPy choice (Python offers choice &amp; choices)</span>
     <span class="name">steps</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">choice</span><span class="punctuation">([</span><span class="operator">-</span><span class="literal number integer">1</span><span class="punctuation">,</span><span class="operator">+</span><span class="literal number integer">1</span><span class="punctuation">],</span> <span class="name">n</span><span class="punctuation">)</span>
     <span class="keyword">return</span> <span class="name">np</span><span class="operator">.</span><span class="name">cumsum</span><span class="punctuation">(</span><span class="name">steps</span><span class="punctuation">)</span>
-
 <span class="name">walk</span> <span class="operator">=</span> <span class="name">random_walk_fastest</span><span class="punctuation">(</span><span class="literal number integer">1000</span><span class="punctuation">)</span>
 </pre>
 <p>Not too difficult, but we gained a factor 500x using NumPy:</p>
@@ -390,7 +384,6 @@ and you don't need to read this book).</p>
 <pre class="code python literal-block">
 <span class="keyword">def</span> <span class="name function">function_1</span><span class="punctuation">(</span><span class="name">seq</span><span class="punctuation">,</span> <span class="name">sub</span><span class="punctuation">):</span>
     <span class="keyword">return</span> <span class="punctuation">[</span><span class="name">i</span> <span class="keyword">for</span> <span class="name">i</span> <span class="operator word">in</span> <span class="name builtin">range</span><span class="punctuation">(</span><span class="name builtin">len</span><span class="punctuation">(</span><span class="name">seq</span><span class="punctuation">)</span> <span class="operator">-</span> <span class="name builtin">len</span><span class="punctuation">(</span><span class="name">sub</span><span class="punctuation">)</span> <span class="operator">+</span><span class="literal number integer">1</span><span class="punctuation">)</span> <span class="keyword">if</span> <span class="name">seq</span><span class="punctuation">[</span><span class="name">i</span><span class="punctuation">:</span><span class="name">i</span><span class="operator">+</span><span class="name builtin">len</span><span class="punctuation">(</span><span class="name">sub</span><span class="punctuation">)]</span> <span class="operator">==</span> <span class="name">sub</span><span class="punctuation">]</span>
-
 <span class="keyword">def</span> <span class="name function">function_2</span><span class="punctuation">(</span><span class="name">seq</span><span class="punctuation">,</span> <span class="name">sub</span><span class="punctuation">):</span>
     <span class="name">target</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">dot</span><span class="punctuation">(</span><span class="name">sub</span><span class="punctuation">,</span> <span class="name">sub</span><span class="punctuation">)</span>
     <span class="name">candidates</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">where</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">correlate</span><span class="punctuation">(</span><span class="name">seq</span><span class="punctuation">,</span> <span class="name">sub</span><span class="punctuation">,</span> <span class="name">mode</span><span class="operator">=</span><span class="literal string single">'valid'</span><span class="punctuation">)</span> <span class="operator">==</span> <span class="name">target</span><span class="punctuation">)[</span><span class="literal number integer">0</span><span class="punctuation">]</span>
@@ -528,7 +521,6 @@ conversion method:</p>
                shape[1]
                  (=3)
             ┌───────────┐
-
          ┌  ┌───┬───┬───┐  ┐
          │  │ 0 │ 1 │ 2 │  │
          │  ├───┼───┼───┤  │
@@ -542,7 +534,6 @@ shape[0] │  │ 3 │ 4 │ 5 │  │ len(Z)
 ┌───┬───┬───┬───┬───┬───┬───┬───┬───┐
 │ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │
 └───┴───┴───┴───┴───┴───┴───┴───┴───┘
-
 └───────────────────────────────────┘
                Z.size
                 (=9)
@@ -552,7 +543,6 @@ shape[0] │  │ 3 │ 4 │ 5 │  │ len(Z)
                          strides[1]
                            (=2)
                   ┌─────────────────────┐
-
           ┌       ┌──────────┬──────────┐ ┐
           │ p+00: │ 00000000 │ 00000000 │ │
           │       ├──────────┼──────────┤ │
@@ -572,7 +562,6 @@ Z.nbytes  │ p+08: │ 00000000 │ 00000100 │
           │       ├──────────┼──────────┤
           │ p+16: │ 00000000 │ 00001000 │
           └       └──────────┴──────────┘
-
                   └─────────────────────┘
                         Z.itemsize
                      Z.dtype.itemsize
@@ -589,7 +578,6 @@ cannot be deduced anymore from the dtype and shape only:</p>
                shape[1]
                  (=2)
             ┌───────────┐
-
          ┌  ┌───┬╌╌╌┬───┐  ┐
          │  │ 0 │   │ 2 │  │            ┌───┬───┐
          │  ├───┼╌╌╌┼───┤  │            │ 0 │ 2 │
@@ -630,7 +618,6 @@ Z.nbytes ─┤      p+08: │          │          │               │
             │ ┌        ├──────────┼──────────┤
             └─┤  p+16: │ 00000000 │ 00001000 │
               └        └──────────┴──────────┘
-
                        └─────────────────────┘
                              Z.itemsize
                           Z.dtype.itemsize
@@ -779,7 +766,6 @@ end-points of an array.</p>
    ╌╌╌┬───┬───┬───┬───┬───┬───┬───┬───┬───┬───┬╌╌
 Z1    │ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │ 8 │ 9 │
    ╌╌╌┴───┴───┴───┴───┴───┴───┴───┴───┴───┴───┴╌╌
-
       byte_bounds(Z2)[0]      byte_bounds(Z2)[-1]
               ↓                       ↓
    ╌╌╌╌╌╌╌┬───┬╌╌╌┬───┬╌╌╌┬───┬╌╌╌┬───┬╌╌╌╌╌╌╌╌╌╌
@@ -790,7 +776,6 @@ Z2        │ 1 │   │ 3 │   │ 5 │   │ 7 │
 &gt;&gt;&gt; offset_start = np.byte_bounds(Z2)[0] - np.byte_bounds(Z1)[0]
 &gt;&gt;&gt; print(offset_start) # bytes
 8
-
 &gt;&gt;&gt; offset_stop = np.byte_bounds(Z2)[-1] - np.byte_bounds(Z1)[-1]
 &gt;&gt;&gt; print(offset_stop) # bytes
 -16
@@ -1048,19 +1033,16 @@ method that will give us the indices where a given condition is True.</p>
 <span class="comment single"># Flatten arrays</span>
 <span class="name">N_</span> <span class="operator">=</span> <span class="name">N</span><span class="operator">.</span><span class="name">ravel</span><span class="punctuation">()</span>
 <span class="name">Z_</span> <span class="operator">=</span> <span class="name">Z</span><span class="operator">.</span><span class="name">ravel</span><span class="punctuation">()</span>
-
 <span class="comment single"># Apply rules</span>
 <span class="name">R1</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">argwhere</span><span class="punctuation">(</span> <span class="punctuation">(</span><span class="name">Z_</span><span class="operator">==</span><span class="literal number integer">1</span><span class="punctuation">)</span> <span class="operator">&amp;</span> <span class="punctuation">(</span><span class="name">N_</span> <span class="operator">&lt;</span> <span class="literal number integer">2</span><span class="punctuation">)</span> <span class="punctuation">)</span>
 <span class="name">R2</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">argwhere</span><span class="punctuation">(</span> <span class="punctuation">(</span><span class="name">Z_</span><span class="operator">==</span><span class="literal number integer">1</span><span class="punctuation">)</span> <span class="operator">&amp;</span> <span class="punctuation">(</span><span class="name">N_</span> <span class="operator">&gt;</span> <span class="literal number integer">3</span><span class="punctuation">)</span> <span class="punctuation">)</span>
 <span class="name">R3</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">argwhere</span><span class="punctuation">(</span> <span class="punctuation">(</span><span class="name">Z_</span><span class="operator">==</span><span class="literal number integer">1</span><span class="punctuation">)</span> <span class="operator">&amp;</span> <span class="punctuation">((</span><span class="name">N_</span><span class="operator">==</span><span class="literal number integer">2</span><span class="punctuation">)</span> <span class="operator">|</span> <span class="punctuation">(</span><span class="name">N_</span><span class="operator">==</span><span class="literal number integer">3</span><span class="punctuation">))</span> <span class="punctuation">)</span>
 <span class="name">R4</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">argwhere</span><span class="punctuation">(</span> <span class="punctuation">(</span><span class="name">Z_</span><span class="operator">==</span><span class="literal number integer">0</span><span class="punctuation">)</span> <span class="operator">&amp;</span> <span class="punctuation">(</span><span class="name">N_</span><span class="operator">==</span><span class="literal number integer">3</span><span class="punctuation">)</span> <span class="punctuation">)</span>
-
 <span class="comment single"># Set new values</span>
 <span class="name">Z_</span><span class="punctuation">[</span><span class="name">R1</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="literal number integer">0</span>
 <span class="name">Z_</span><span class="punctuation">[</span><span class="name">R2</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="literal number integer">0</span>
 <span class="name">Z_</span><span class="punctuation">[</span><span class="name">R3</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="name">Z_</span><span class="punctuation">[</span><span class="name">R3</span><span class="punctuation">]</span>
 <span class="name">Z_</span><span class="punctuation">[</span><span class="name">R4</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="literal number integer">1</span>
-
 <span class="comment single"># Make sure borders stay null</span>
 <span class="name">Z</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">,:]</span> <span class="operator">=</span> <span class="name">Z</span><span class="punctuation">[</span><span class="operator">-</span><span class="literal number integer">1</span><span class="punctuation">,:]</span> <span class="operator">=</span> <span class="name">Z</span><span class="punctuation">[:,</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="name">Z</span><span class="punctuation">[:,</span><span class="operator">-</span><span class="literal number integer">1</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="literal number integer">0</span>
 </pre>
@@ -1219,11 +1201,9 @@ Here is a set of interesting parameters to test:</p>
 <video width="33%" controls>
 <source src="data/gray-scott-1.mp4" type="video/mp4">
 Your browser does not support the video tag. </video>
-
 <video width="33%" controls>
 <source src="data/gray-scott-2.mp4" type="video/mp4">
 Your browser does not support the video tag. </video>
-
 <video width="33%" controls>
 <source src="data/gray-scott-3.mp4" type="video/mp4">
 Your browser does not support the video tag. </video></div>
@@ -1341,20 +1321,16 @@ a 10x factor speed improvement compared to the Python version.</p>
     <span class="name">N_</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">zeros</span><span class="punctuation">(</span><span class="name">C</span><span class="operator">.</span><span class="name">shape</span><span class="punctuation">,</span> <span class="name">dtype</span><span class="operator">=</span><span class="name">np</span><span class="operator">.</span><span class="name">uint32</span><span class="punctuation">)</span>
     <span class="name">Z_</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">zeros</span><span class="punctuation">(</span><span class="name">C</span><span class="operator">.</span><span class="name">shape</span><span class="punctuation">,</span> <span class="name">dtype</span><span class="operator">=</span><span class="name">np</span><span class="operator">.</span><span class="name">complex64</span><span class="punctuation">)</span>
     <span class="name">Xi</span><span class="operator">.</span><span class="name">shape</span> <span class="operator">=</span> <span class="name">Yi</span><span class="operator">.</span><span class="name">shape</span> <span class="operator">=</span> <span class="name">C</span><span class="operator">.</span><span class="name">shape</span> <span class="operator">=</span> <span class="name">xn</span><span class="operator">*</span><span class="name">yn</span>
-
     <span class="name">Z</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">zeros</span><span class="punctuation">(</span><span class="name">C</span><span class="operator">.</span><span class="name">shape</span><span class="punctuation">,</span> <span class="name">np</span><span class="operator">.</span><span class="name">complex64</span><span class="punctuation">)</span>
     <span class="keyword">for</span> <span class="name">i</span> <span class="operator word">in</span> <span class="name builtin">range</span><span class="punctuation">(</span><span class="name">itermax</span><span class="punctuation">):</span>
         <span class="keyword">if</span> <span class="operator word">not</span> <span class="name builtin">len</span><span class="punctuation">(</span><span class="name">Z</span><span class="punctuation">):</span> <span class="keyword">break</span>
-
         <span class="comment single"># Compute for relevant points only</span>
         <span class="name">np</span><span class="operator">.</span><span class="name">multiply</span><span class="punctuation">(</span><span class="name">Z</span><span class="punctuation">,</span> <span class="name">Z</span><span class="punctuation">,</span> <span class="name">Z</span><span class="punctuation">)</span>
         <span class="name">np</span><span class="operator">.</span><span class="name">add</span><span class="punctuation">(</span><span class="name">Z</span><span class="punctuation">,</span> <span class="name">C</span><span class="punctuation">,</span> <span class="name">Z</span><span class="punctuation">)</span>
-
         <span class="comment single"># Failed convergence</span>
         <span class="name">I</span> <span class="operator">=</span> <span class="name builtin">abs</span><span class="punctuation">(</span><span class="name">Z</span><span class="punctuation">)</span> <span class="operator">&gt;</span> <span class="name">horizon</span>
         <span class="name">N_</span><span class="punctuation">[</span><span class="name">Xi</span><span class="punctuation">[</span><span class="name">I</span><span class="punctuation">],</span> <span class="name">Yi</span><span class="punctuation">[</span><span class="name">I</span><span class="punctuation">]]</span> <span class="operator">=</span> <span class="name">i</span><span class="operator">+</span><span class="literal number integer">1</span>
         <span class="name">Z_</span><span class="punctuation">[</span><span class="name">Xi</span><span class="punctuation">[</span><span class="name">I</span><span class="punctuation">],</span> <span class="name">Yi</span><span class="punctuation">[</span><span class="name">I</span><span class="punctuation">]]</span> <span class="operator">=</span> <span class="name">Z</span><span class="punctuation">[</span><span class="name">I</span><span class="punctuation">]</span>
-
         <span class="comment single"># Keep going with those who have not diverged yet</span>
         <span class="name">np</span><span class="operator">.</span><span class="name">negative</span><span class="punctuation">(</span><span class="name">I</span><span class="punctuation">,</span><span class="name">I</span><span class="punctuation">)</span>
         <span class="name">Z</span> <span class="operator">=</span> <span class="name">Z</span><span class="punctuation">[</span><span class="name">I</span><span class="punctuation">]</span>
@@ -1479,7 +1455,6 @@ position and velocity, it seems natural to start by writing a Boid class:</p>
 <span class="keyword namespace">import</span> <span class="name namespace">math</span>
 <span class="keyword namespace">import</span> <span class="name namespace">random</span>
 <span class="keyword namespace">from</span> <span class="name namespace">vec2</span> <span class="keyword namespace">import</span> <span class="name">vec2</span>
-
 <span class="keyword">class</span> <span class="name class">Boid</span><span class="punctuation">:</span>
     <span class="keyword">def</span> <span class="name function magic">__init__</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">,</span> <span class="name">x</span><span class="operator">=</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="name">y</span><span class="operator">=</span><span class="literal number integer">0</span><span class="punctuation">):</span>
         <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">position</span> <span class="operator">=</span> <span class="name">vec2</span><span class="punctuation">(</span><span class="name">x</span><span class="punctuation">,</span> <span class="name">y</span><span class="punctuation">)</span>
@@ -1506,7 +1481,6 @@ prototypical way of writing the three rules is thus something like:</p>
             <span class="operator">...</span>
     <span class="keyword">if</span> <span class="name">count</span> <span class="operator">&gt;</span> <span class="literal number integer">0</span><span class="punctuation">:</span>
         <span class="operator">...</span>
-
  <span class="keyword">def</span> <span class="name function">alignment</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">,</span> <span class="name">boids</span><span class="punctuation">):</span> <span class="operator">...</span>
  <span class="keyword">def</span> <span class="name function">cohesion</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">,</span> <span class="name">boids</span><span class="punctuation">):</span> <span class="operator">...</span>
 </pre>
@@ -1520,7 +1494,6 @@ describe it here and there is no real difficulty.</p>
         <span class="keyword">for</span> <span class="name">i</span> <span class="operator word">in</span> <span class="name builtin">range</span><span class="punctuation">(</span><span class="name">count</span><span class="punctuation">):</span>
             <span class="name">boid</span> <span class="operator">=</span> <span class="name">Boid</span><span class="punctuation">()</span>
             <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">boids</span><span class="operator">.</span><span class="name">append</span><span class="punctuation">(</span><span class="name">boid</span><span class="punctuation">)</span>
-
     <span class="keyword">def</span> <span class="name function">run</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">):</span>
         <span class="keyword">for</span> <span class="name">boid</span> <span class="operator word">in</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">boids</span><span class="punctuation">:</span>
             <span class="name">boid</span><span class="operator">.</span><span class="name">run</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">boids</span><span class="punctuation">)</span>
@@ -1589,14 +1562,11 @@ it is at least 1 to avoid division by zero.</p>
 <pre class="code python literal-block">
 <span class="comment single"># Compute the average velocity of local neighbours</span>
 <span class="name">target</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">dot</span><span class="punctuation">(</span><span class="name">mask</span><span class="punctuation">,</span> <span class="name">velocity</span><span class="punctuation">)</span><span class="operator">/</span><span class="name">count</span><span class="operator">.</span><span class="name">reshape</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
-
 <span class="comment single"># Normalize the result</span>
 <span class="name">norm</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">sqrt</span><span class="punctuation">((</span><span class="name">target</span><span class="operator">*</span><span class="name">target</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">sum</span><span class="punctuation">(</span><span class="name">axis</span><span class="operator">=</span><span class="literal number integer">1</span><span class="punctuation">))</span><span class="operator">.</span><span class="name">reshape</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
 <span class="name">target</span> <span class="operator">*=</span> <span class="name">np</span><span class="operator">.</span><span class="name">divide</span><span class="punctuation">(</span><span class="name">target</span><span class="punctuation">,</span> <span class="name">norm</span><span class="punctuation">,</span> <span class="name">out</span><span class="operator">=</span><span class="name">target</span><span class="punctuation">,</span> <span class="name">where</span><span class="operator">=</span><span class="name">norm</span> <span class="operator">!=</span> <span class="literal number integer">0</span><span class="punctuation">)</span>
-
 <span class="comment single"># Alignment at constant speed</span>
 <span class="name">target</span> <span class="operator">*=</span> <span class="name">max_velocity</span>
-
 <span class="comment single"># Compute the resulting steering</span>
 <span class="name">alignment</span> <span class="operator">=</span> <span class="name">target</span> <span class="operator">-</span> <span class="name">velocity</span>
 </pre>
@@ -1604,17 +1574,13 @@ it is at least 1 to avoid division by zero.</p>
 <pre class="code python literal-block">
 <span class="comment single"># Compute the gravity center of local neighbours</span>
 <span class="name">center</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">dot</span><span class="punctuation">(</span><span class="name">mask</span><span class="punctuation">,</span> <span class="name">position</span><span class="punctuation">)</span><span class="operator">/</span><span class="name">count</span><span class="operator">.</span><span class="name">reshape</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
-
 <span class="comment single"># Compute direction toward the center</span>
 <span class="name">target</span> <span class="operator">=</span> <span class="name">center</span> <span class="operator">-</span> <span class="name">position</span>
-
 <span class="comment single"># Normalize the result</span>
 <span class="name">norm</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">sqrt</span><span class="punctuation">((</span><span class="name">target</span><span class="operator">*</span><span class="name">target</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">sum</span><span class="punctuation">(</span><span class="name">axis</span><span class="operator">=</span><span class="literal number integer">1</span><span class="punctuation">))</span><span class="operator">.</span><span class="name">reshape</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
 <span class="name">target</span> <span class="operator">*=</span> <span class="name">np</span><span class="operator">.</span><span class="name">divide</span><span class="punctuation">(</span><span class="name">target</span><span class="punctuation">,</span> <span class="name">norm</span><span class="punctuation">,</span> <span class="name">out</span><span class="operator">=</span><span class="name">target</span><span class="punctuation">,</span> <span class="name">where</span><span class="operator">=</span><span class="name">norm</span> <span class="operator">!=</span> <span class="literal number integer">0</span><span class="punctuation">)</span>
-
 <span class="comment single"># Cohesion at constant speed (max_velocity)</span>
 <span class="name">target</span> <span class="operator">*=</span> <span class="name">max_velocity</span>
-
 <span class="comment single"># Compute the resulting steering</span>
 <span class="name">cohesion</span> <span class="operator">=</span> <span class="name">target</span> <span class="operator">-</span> <span class="name">velocity</span>
 </pre>
@@ -1622,21 +1588,16 @@ it is at least 1 to avoid division by zero.</p>
 <pre class="code python literal-block">
 <span class="comment single"># Compute the repulsion force from local neighbours</span>
 <span class="name">repulsion</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">dstack</span><span class="punctuation">((</span><span class="name">dx</span><span class="punctuation">,</span> <span class="name">dy</span><span class="punctuation">))</span>
-
 <span class="comment single"># Force is inversely proportional to the distance</span>
 <span class="name">repulsion</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">divide</span><span class="punctuation">(</span><span class="name">repulsion</span><span class="punctuation">,</span> <span class="name">distance</span><span class="operator">.</span><span class="name">reshape</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">,</span> <span class="name">n</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span><span class="operator">**</span><span class="literal number integer">2</span><span class="punctuation">,</span> <span class="name">out</span><span class="operator">=</span><span class="name">repulsion</span><span class="punctuation">,</span>
                       <span class="name">where</span><span class="operator">=</span><span class="name">distance</span><span class="operator">.</span><span class="name">reshape</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">,</span> <span class="name">n</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span> <span class="operator">!=</span> <span class="literal number integer">0</span><span class="punctuation">)</span>
-
 <span class="comment single"># Compute direction away from others</span>
 <span class="name">target</span> <span class="operator">=</span> <span class="punctuation">(</span><span class="name">repulsion</span><span class="operator">*</span><span class="name">mask</span><span class="operator">.</span><span class="name">reshape</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">,</span> <span class="name">n</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">))</span><span class="operator">.</span><span class="name">sum</span><span class="punctuation">(</span><span class="name">axis</span><span class="operator">=</span><span class="literal number integer">1</span><span class="punctuation">)</span><span class="operator">/</span><span class="name">count</span><span class="operator">.</span><span class="name">reshape</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
-
 <span class="comment single"># Normalize the result</span>
 <span class="name">norm</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">sqrt</span><span class="punctuation">((</span><span class="name">target</span><span class="operator">*</span><span class="name">target</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">sum</span><span class="punctuation">(</span><span class="name">axis</span><span class="operator">=</span><span class="literal number integer">1</span><span class="punctuation">))</span><span class="operator">.</span><span class="name">reshape</span><span class="punctuation">(</span><span class="name">n</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">)</span>
 <span class="name">target</span> <span class="operator">*=</span> <span class="name">np</span><span class="operator">.</span><span class="name">divide</span><span class="punctuation">(</span><span class="name">target</span><span class="punctuation">,</span> <span class="name">norm</span><span class="punctuation">,</span> <span class="name">out</span><span class="operator">=</span><span class="name">target</span><span class="punctuation">,</span> <span class="name">where</span><span class="operator">=</span><span class="name">norm</span> <span class="operator">!=</span> <span class="literal number integer">0</span><span class="punctuation">)</span>
-
 <span class="comment single"># Separation at constant speed (max_velocity)</span>
 <span class="name">target</span> <span class="operator">*=</span> <span class="name">max_velocity</span>
-
 <span class="comment single"># Compute the resulting steering</span>
 <span class="name">separation</span> <span class="operator">=</span> <span class="name">target</span> <span class="operator">-</span> <span class="name">velocity</span>
 </pre>
@@ -1914,23 +1875,18 @@ maze is easy to solve. With low density, the maze has more &quot;big empty rooms
 <span class="keyword">def</span> <span class="name function">build_maze</span><span class="punctuation">(</span><span class="name">shape</span><span class="operator">=</span><span class="punctuation">(</span><span class="literal number integer">65</span><span class="punctuation">,</span> <span class="literal number integer">65</span><span class="punctuation">),</span> <span class="name">complexity</span><span class="operator">=</span><span class="literal number float">0.75</span><span class="punctuation">,</span> <span class="name">density</span><span class="operator">=</span><span class="literal number float">0.50</span><span class="punctuation">):</span>
     <span class="comment single"># Only odd shapes</span>
     <span class="name">shape</span> <span class="operator">=</span> <span class="punctuation">((</span><span class="name">shape</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span><span class="operator">//</span><span class="literal number integer">2</span><span class="punctuation">)</span><span class="operator">*</span><span class="literal number integer">2</span><span class="operator">+</span><span class="literal number integer">1</span><span class="punctuation">,</span> <span class="punctuation">(</span><span class="name">shape</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]</span><span class="operator">//</span><span class="literal number integer">2</span><span class="punctuation">)</span><span class="operator">*</span><span class="literal number integer">2</span><span class="operator">+</span><span class="literal number integer">1</span><span class="punctuation">)</span>
-
     <span class="comment single"># Adjust complexity and density relatively to maze size</span>
     <span class="name">n_complexity</span> <span class="operator">=</span> <span class="name builtin">int</span><span class="punctuation">(</span><span class="name">complexity</span><span class="operator">*</span><span class="punctuation">(</span><span class="name">shape</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span><span class="operator">+</span><span class="name">shape</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]))</span>
     <span class="name">n_density</span> <span class="operator">=</span> <span class="name builtin">int</span><span class="punctuation">(</span><span class="name">density</span><span class="operator">*</span><span class="punctuation">(</span><span class="name">shape</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span><span class="operator">*</span><span class="name">shape</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]))</span>
-
     <span class="comment single"># Build actual maze</span>
     <span class="name">Z</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">zeros</span><span class="punctuation">(</span><span class="name">shape</span><span class="punctuation">,</span> <span class="name">dtype</span><span class="operator">=</span><span class="name builtin">bool</span><span class="punctuation">)</span>
-
     <span class="comment single"># Fill borders</span>
     <span class="name">Z</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="punctuation">:]</span> <span class="operator">=</span> <span class="name">Z</span><span class="punctuation">[</span><span class="operator">-</span><span class="literal number integer">1</span><span class="punctuation">,</span> <span class="punctuation">:]</span> <span class="operator">=</span> <span class="name">Z</span><span class="punctuation">[:,</span> <span class="literal number integer">0</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="name">Z</span><span class="punctuation">[:,</span> <span class="operator">-</span><span class="literal number integer">1</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="literal number integer">1</span>
-
     <span class="comment single"># Islands starting point with a bias in favor of border</span>
     <span class="name">P</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">normal</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number float">0.5</span><span class="punctuation">,</span> <span class="punctuation">(</span><span class="name">n_density</span><span class="punctuation">,</span> <span class="literal number integer">2</span><span class="punctuation">))</span>
     <span class="name">P</span> <span class="operator">=</span> <span class="literal number float">0.5</span> <span class="operator">-</span> <span class="name">np</span><span class="operator">.</span><span class="name">maximum</span><span class="punctuation">(</span><span class="operator">-</span><span class="literal number float">0.5</span><span class="punctuation">,</span> <span class="name">np</span><span class="operator">.</span><span class="name">minimum</span><span class="punctuation">(</span><span class="name">P</span><span class="punctuation">,</span> <span class="operator">+</span><span class="literal number float">0.5</span><span class="punctuation">))</span>
     <span class="name">P</span> <span class="operator">=</span> <span class="punctuation">(</span><span class="name">P</span><span class="operator">*</span><span class="punctuation">[</span><span class="name">shape</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">],</span> <span class="name">shape</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]])</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name builtin">int</span><span class="punctuation">)</span>
     <span class="name">P</span> <span class="operator">=</span> <span class="literal number integer">2</span><span class="operator">*</span><span class="punctuation">(</span><span class="name">P</span><span class="operator">//</span><span class="literal number integer">2</span><span class="punctuation">)</span>
-
     <span class="comment single"># Create islands</span>
     <span class="keyword">for</span> <span class="name">i</span> <span class="operator word">in</span> <span class="name builtin">range</span><span class="punctuation">(</span><span class="name">n_density</span><span class="punctuation">):</span>
         <span class="comment single"># Test for early stop: if all starting point are busy, this means we</span>
@@ -2006,7 +1962,6 @@ i.e. all the edges have the same weight (or cost).</p>
     <span class="name">queue</span> <span class="operator">=</span> <span class="name">deque</span><span class="punctuation">([([</span><span class="name">start</span><span class="punctuation">],</span> <span class="name">start</span><span class="punctuation">)])</span>
     <span class="name">visited</span> <span class="operator">=</span> <span class="name builtin">set</span><span class="punctuation">()</span>
     <span class="name">graph</span> <span class="operator">=</span> <span class="name">build_graph</span><span class="punctuation">(</span><span class="name">maze</span><span class="punctuation">)</span>
-
     <span class="keyword">while</span> <span class="name">queue</span><span class="punctuation">:</span>
         <span class="name">path</span><span class="punctuation">,</span> <span class="name">current</span> <span class="operator">=</span> <span class="name">queue</span><span class="operator">.</span><span class="name">popleft</span><span class="punctuation">()</span>
         <span class="keyword">if</span> <span class="name">current</span> <span class="operator">==</span> <span class="name">goal</span><span class="punctuation">:</span>
@@ -2057,16 +2012,12 @@ process starts as soon as the starting node value becomes strictly positive.</p>
 <span class="keyword">def</span> <span class="name function">diffuse</span><span class="punctuation">(</span><span class="name">Z</span><span class="punctuation">):</span>
     <span class="comment single"># North, West, Center, East, South</span>
     <span class="keyword">return</span> <span class="name builtin">max</span><span class="punctuation">(</span><span class="name">gamma</span><span class="operator">*</span><span class="name">Z</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">],</span> <span class="name">gamma</span><span class="operator">*</span><span class="name">Z</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">],</span> <span class="name">Z</span><span class="punctuation">[</span><span class="literal number integer">2</span><span class="punctuation">],</span> <span class="name">gamma</span><span class="operator">*</span><span class="name">Z</span><span class="punctuation">[</span><span class="literal number integer">3</span><span class="punctuation">],</span> <span class="name">gamma</span><span class="operator">*</span><span class="name">Z</span><span class="punctuation">[</span><span class="literal number integer">4</span><span class="punctuation">])</span>
-
 <span class="comment single"># Build gradient array</span>
 <span class="name">G</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">zeros</span><span class="punctuation">(</span><span class="name">Z</span><span class="operator">.</span><span class="name">shape</span><span class="punctuation">)</span>
-
 <span class="comment single"># Initialize gradient at the entrance with value 1</span>
 <span class="name">G</span><span class="punctuation">[</span><span class="name">start</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="literal number integer">1</span>
-
 <span class="comment single"># Discount factor</span>
 <span class="name">gamma</span> <span class="operator">=</span> <span class="literal number float">0.99</span>
-
 <span class="comment single"># We iterate until value at exit is &gt; 0. This requires the maze</span>
 <span class="comment single"># to have a solution or it will be stuck in the loop.</span>
 <span class="keyword">while</span> <span class="name">G</span><span class="punctuation">[</span><span class="name">goal</span><span class="punctuation">]</span> <span class="operator">==</span> <span class="literal number float">0.0</span><span class="punctuation">:</span>
@@ -2079,13 +2030,10 @@ solution, reusing part of the game of life code:</p>
 <pre class="code python literal-block">
 <span class="comment single"># Build gradient array</span>
 <span class="name">G</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">zeros</span><span class="punctuation">(</span><span class="name">Z</span><span class="operator">.</span><span class="name">shape</span><span class="punctuation">)</span>
-
 <span class="comment single"># Initialize gradient at the entrance with value 1</span>
 <span class="name">G</span><span class="punctuation">[</span><span class="name">start</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="literal number integer">1</span>
-
 <span class="comment single"># Discount factor</span>
 <span class="name">gamma</span> <span class="operator">=</span> <span class="literal number float">0.99</span>
-
 <span class="comment single"># We iterate until value at exit is &gt; 0. This requires the maze</span>
 <span class="comment single"># to have a solution or it will be stuck in the loop.</span>
 <span class="name">G_gamma</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">empty_like</span><span class="punctuation">(</span><span class="name">G</span><span class="punctuation">)</span>
@@ -2190,11 +2138,9 @@ computations.</p>
 <video width="33%" controls>
 <source src="data/smoke-1.mp4" type="video/mp4">
 Your browser does not support the video tag. </video>
-
 <video width="33%" controls>
 <source src="data/smoke-2.mp4" type="video/mp4">
 Your browser does not support the video tag. </video>
-
 <video width="33%" controls>
 <source src="data/smoke-gpu.mp4" type="video/mp4">
 Your browser does not support the video tag. </video></div>
@@ -2251,12 +2197,10 @@ the whole process.</p>
 <pre class="code python literal-block">
 <span class="keyword namespace">import</span> <span class="name namespace">math</span>
 <span class="keyword namespace">import</span> <span class="name namespace">random</span>
-
 <span class="keyword">def</span> <span class="name function">DART_sampling</span><span class="punctuation">(</span><span class="name">width</span><span class="operator">=</span><span class="literal number float">1.0</span><span class="punctuation">,</span> <span class="name">height</span><span class="operator">=</span><span class="literal number float">1.0</span><span class="punctuation">,</span> <span class="name">r</span> <span class="operator">=</span> <span class="literal number float">0.025</span><span class="punctuation">,</span> <span class="name">k</span><span class="operator">=</span><span class="literal number integer">100</span><span class="punctuation">):</span>
     <span class="keyword">def</span> <span class="name function">distance</span><span class="punctuation">(</span><span class="name">p0</span><span class="punctuation">,</span> <span class="name">p1</span><span class="punctuation">):</span>
         <span class="name">dx</span><span class="punctuation">,</span> <span class="name">dy</span> <span class="operator">=</span> <span class="name">p0</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span><span class="operator">-</span><span class="name">p1</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">],</span> <span class="name">p0</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]</span><span class="operator">-</span><span class="name">p1</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">]</span>
         <span class="keyword">return</span> <span class="name">math</span><span class="operator">.</span><span class="name">hypot</span><span class="punctuation">(</span><span class="name">dx</span><span class="punctuation">,</span> <span class="name">dy</span><span class="punctuation">)</span>
-
     <span class="name">points</span> <span class="operator">=</span> <span class="punctuation">[]</span>
     <span class="name">i</span> <span class="operator">=</span> <span class="literal number integer">0</span>
     <span class="name">last_success</span> <span class="operator">=</span> <span class="literal number integer">0</span>
@@ -2422,21 +2366,17 @@ others) for the creation of a <code>TypedList</code> object.</p>
     <span class="literal string doc">&quot;&quot;&quot;
     Parameters
     ----------
-
     data : array_like
         An array, any object exposing the array interface, an object
         whose __array__ method returns an array, or any (nested) sequence.
-
     sizes:  int or 1-D array
         If `itemsize is an integer, N, the array will be divided
         into elements of size N. If such partition is not possible,
         an error is raised.
-
         If `itemsize` is 1-D array, the array will be divided into
         elements whose successive sizes will be picked from itemsize.
         If the sum of itemsize values is different from array size,
         an error is raised.
-
     dtype: np.dtype
         Any object that can be interpreted as a NumPy data type.
     &quot;&quot;&quot;</span>
@@ -2450,7 +2390,6 @@ split in items of size 1, 2, 3 and 4 items).</p>
 <span class="operator">&gt;&gt;&gt;</span> <span class="name">L</span> <span class="operator">=</span> <span class="name">TypedList</span><span class="punctuation">([[</span><span class="literal number integer">0</span><span class="punctuation">],</span> <span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">,</span><span class="literal number integer">2</span><span class="punctuation">],</span> <span class="punctuation">[</span><span class="literal number integer">3</span><span class="punctuation">,</span><span class="literal number integer">4</span><span class="punctuation">,</span><span class="literal number integer">5</span><span class="punctuation">],</span> <span class="punctuation">[</span><span class="literal number integer">6</span><span class="punctuation">,</span><span class="literal number integer">7</span><span class="punctuation">,</span><span class="literal number integer">8</span><span class="punctuation">,</span><span class="literal number integer">9</span><span class="punctuation">]])</span>
 <span class="operator">&gt;&gt;&gt;</span> <span class="keyword">print</span><span class="punctuation">(</span><span class="name">L</span><span class="punctuation">)</span>
 <span class="punctuation">[</span> <span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="punctuation">[</span><span class="literal number integer">1</span> <span class="literal number integer">2</span><span class="punctuation">]</span> <span class="punctuation">[</span><span class="literal number integer">3</span> <span class="literal number integer">4</span> <span class="literal number integer">5</span><span class="punctuation">]</span> <span class="punctuation">[</span><span class="literal number integer">6</span> <span class="literal number integer">7</span> <span class="literal number integer">8</span><span class="punctuation">]</span> <span class="punctuation">]</span>
-
 <span class="operator">&gt;&gt;&gt;</span> <span class="name">L</span> <span class="operator">=</span> <span class="name">TypedList</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">arange</span><span class="punctuation">(</span><span class="literal number integer">10</span><span class="punctuation">),</span> <span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">,</span><span class="literal number integer">2</span><span class="punctuation">,</span><span class="literal number integer">3</span><span class="punctuation">,</span><span class="literal number integer">4</span><span class="punctuation">])</span>
 <span class="punctuation">[</span> <span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">]</span> <span class="punctuation">[</span><span class="literal number integer">1</span> <span class="literal number integer">2</span><span class="punctuation">]</span> <span class="punctuation">[</span><span class="literal number integer">3</span> <span class="literal number integer">4</span> <span class="literal number integer">5</span><span class="punctuation">]</span> <span class="punctuation">[</span><span class="literal number integer">6</span> <span class="literal number integer">7</span> <span class="literal number integer">8</span><span class="punctuation">]</span> <span class="punctuation">]</span>
 </pre>
@@ -2507,7 +2446,6 @@ negative step:</p>
         <span class="name">dstart</span> <span class="operator">=</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_items</span><span class="punctuation">[</span><span class="name">key</span><span class="punctuation">][</span><span class="literal number integer">0</span><span class="punctuation">]</span>
         <span class="name">dstop</span>  <span class="operator">=</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_items</span><span class="punctuation">[</span><span class="name">key</span><span class="punctuation">][</span><span class="literal number integer">1</span><span class="punctuation">]</span>
         <span class="keyword">return</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_data</span><span class="punctuation">[</span><span class="name">dstart</span><span class="punctuation">:</span><span class="name">dstop</span><span class="punctuation">]</span>
-
     <span class="keyword">elif</span> <span class="name builtin">type</span><span class="punctuation">(</span><span class="name">key</span><span class="punctuation">)</span> <span class="operator word">is</span> <span class="name builtin">slice</span><span class="punctuation">:</span>
         <span class="name">istart</span><span class="punctuation">,</span> <span class="name">istop</span><span class="punctuation">,</span> <span class="name">step</span> <span class="operator">=</span> <span class="name">key</span><span class="operator">.</span><span class="name">indices</span><span class="punctuation">(</span><span class="name builtin">len</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">))</span>
         <span class="keyword">if</span> <span class="name">istart</span> <span class="operator">&gt;</span> <span class="name">istop</span><span class="punctuation">:</span>
@@ -2518,13 +2456,10 @@ negative step:</p>
         <span class="keyword">else</span><span class="punctuation">:</span>
             <span class="name">dstop</span>  <span class="operator">=</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_items</span><span class="punctuation">[</span><span class="name">istop</span><span class="operator">-</span><span class="literal number integer">1</span><span class="punctuation">][</span><span class="literal number integer">1</span><span class="punctuation">]</span>
         <span class="keyword">return</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_data</span><span class="punctuation">[</span><span class="name">dstart</span><span class="punctuation">:</span><span class="name">dstop</span><span class="punctuation">]</span>
-
     <span class="keyword">elif</span> <span class="name builtin">isinstance</span><span class="punctuation">(</span><span class="name">key</span><span class="punctuation">,</span><span class="name builtin">str</span><span class="punctuation">):</span>
         <span class="keyword">return</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_data</span><span class="punctuation">[</span><span class="name">key</span><span class="punctuation">][:</span><span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_size</span><span class="punctuation">]</span>
-
     <span class="keyword">elif</span> <span class="name">key</span> <span class="operator word">is</span> <span class="name builtin pseudo">Ellipsis</span><span class="punctuation">:</span>
         <span class="keyword">return</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">data</span>
-
     <span class="keyword">else</span><span class="punctuation">:</span>
         <span class="keyword">raise</span> <span class="name exception">TypeError</span><span class="punctuation">(</span><span class="literal string double">&quot;List indices must be integers&quot;</span><span class="punctuation">)</span>
 </pre>
@@ -2547,7 +2482,6 @@ necessary in order to avoid future expansion.</p>
     │ 0 │ 0 ││ 1 │ 1 ││ 2 │ 2 │
  ╌╌╌┴───┴───┘└───┴───┘└───┴───┴╌╌╌╌╌╌
      item 1   item 2   item 3
-
 ╌╌╌╌┬───┬───┐┌───┬───┲━━━┓┌───┬───┬╌╌╌╌╌
     │ 0 │ 0 ││ 1 │ 1 ┃ 1 ┃│ 2 │ 2 │
  ╌╌╌┴───┴───┘└───┴───┺━━━┛└───┴───┴╌╌╌╌╌╌
@@ -2563,7 +2497,6 @@ necessary in order to avoid future expansion.</p>
     │ 0 │ 0 │┃ 1 ┃ 1 ┃│ 2 │ 2 │
  ╌╌╌┴───┴───┘┗━━━┻━━━┛└───┴───┴╌╌╌╌╌╌
      item 1   item 2   item 3
-
 ╌╌╌╌┬───┬───┐┌───┬───┬╌╌╌╌╌
     │ 0 │ 0 ││ 2 │ 2 │
  ╌╌╌┴───┴───┘└───┴───┴╌╌╌╌╌╌
@@ -2579,7 +2512,6 @@ necessary in order to avoid future expansion.</p>
     │ 0 │ 0 ││ 1 │ 1 ││ 2 │ 2 │
  ╌╌╌┴───┴───┘└───┴───┘└───┴───┴╌╌╌╌╌╌
      item 1   item 2   item 3
-
 ╌╌╌╌┬───┬───┐┏━━━┳━━━┓┌───┬───┐┌───┬───┬╌╌╌╌╌
     │ 0 │ 0 │┃ 3 ┃ 3 ┃│ 1 │ 1 ││ 2 │ 2 │
  ╌╌╌┴───┴───┘┗━━━┻━━━┛└───┴───┘└───┴───┴╌╌╌╌╌╌
@@ -2618,7 +2550,6 @@ means you can manipulate GPU data as you would with regular NumPy arrays and
 glumpy will take care of the rest. But an example is worth a thousand words:</p>
 <pre class="code literal-block">
 from glumpy import gloo
-
 dtype = [(&quot;position&quot;, np.float32, 2),  # x,y
          (&quot;color&quot;,    np.float32, 3)]  # r,g,b
 V = np.zeros((3,3),dtype).view(gloo.VertexBuffer)
@@ -2668,10 +2599,8 @@ byte size) relatively to the <code>extents</code> property.</li>
 <span class="keyword">class</span> <span class="name class">GPUData</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">ndarray</span><span class="punctuation">):</span>
     <span class="keyword">def</span> <span class="name function magic">__new__</span><span class="punctuation">(</span><span class="name builtin pseudo">cls</span><span class="punctuation">,</span> <span class="operator">*</span><span class="name">args</span><span class="punctuation">,</span> <span class="operator">**</span><span class="name">kwargs</span><span class="punctuation">):</span>
         <span class="keyword">return</span> <span class="name">np</span><span class="operator">.</span><span class="name">ndarray</span><span class="operator">.</span><span class="name function magic">__new__</span><span class="punctuation">(</span><span class="name builtin pseudo">cls</span><span class="punctuation">,</span> <span class="operator">*</span><span class="name">args</span><span class="punctuation">,</span> <span class="operator">**</span><span class="name">kwargs</span><span class="punctuation">)</span>
-
     <span class="keyword">def</span> <span class="name function magic">__init__</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">,</span> <span class="operator">*</span><span class="name">args</span><span class="punctuation">,</span> <span class="operator">**</span><span class="name">kwargs</span><span class="punctuation">):</span>
         <span class="keyword">pass</span>
-
     <span class="keyword">def</span> <span class="name function">__array_finalize__</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">,</span> <span class="name">obj</span><span class="punctuation">):</span>
         <span class="keyword">if</span> <span class="operator word">not</span> <span class="name builtin">isinstance</span><span class="punctuation">(</span><span class="name">obj</span><span class="punctuation">,</span> <span class="name">GPUData</span><span class="punctuation">):</span>
             <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_extents</span> <span class="operator">=</span> <span class="literal number integer">0</span><span class="punctuation">,</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">size</span><span class="operator">*</span><span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">itemsize</span>
@@ -2692,7 +2621,6 @@ extents of this partial view while we have access to the base array.</p>
         <span class="keyword">return</span> <span class="name">Z</span>
     <span class="name">Z</span><span class="operator">.</span><span class="name">_extents</span> <span class="operator">=</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_compute_extents</span><span class="punctuation">(</span><span class="name">Z</span><span class="punctuation">)</span>
     <span class="keyword">return</span> <span class="name">Z</span>
-
 <span class="keyword">def</span> <span class="name function">_compute_extents</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">,</span> <span class="name">Z</span><span class="punctuation">):</span>
     <span class="keyword">if</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">base</span> <span class="operator word">is</span> <span class="operator word">not</span> <span class="name builtin pseudo">None</span><span class="punctuation">:</span>
         <span class="name">base</span> <span class="operator">=</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">base</span><span class="operator">.</span><span class="name">__array_interface__</span><span class="punctuation">[</span><span class="literal string single">'data'</span><span class="punctuation">][</span><span class="literal number integer">0</span><span class="punctuation">]</span>
@@ -2726,7 +2654,6 @@ method. This will be handled when we need to update some data as during a
         <span class="name">Z</span><span class="operator">.</span><span class="name">_extents</span> <span class="operator">=</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_compute_extents</span><span class="punctuation">(</span><span class="name">Z</span><span class="punctuation">)</span>
         <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">_add_pending_data</span><span class="punctuation">(</span><span class="name">Z</span><span class="operator">.</span><span class="name">_extents</span><span class="punctuation">[</span><span class="literal number integer">0</span><span class="punctuation">],</span> <span class="name">Z</span><span class="operator">.</span><span class="name">_extents</span><span class="punctuation">[</span><span class="literal number integer">1</span><span class="punctuation">])</span>
     <span class="name">np</span><span class="operator">.</span><span class="name">ndarray</span><span class="operator">.</span><span class="name function magic">__setitem__</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">,</span> <span class="name">key</span><span class="punctuation">,</span> <span class="name">value</span><span class="punctuation">)</span>
-
 <span class="keyword">def</span> <span class="name function">_add_pending_data</span><span class="punctuation">(</span><span class="name builtin pseudo">self</span><span class="punctuation">,</span> <span class="name">start</span><span class="punctuation">,</span> <span class="name">stop</span><span class="punctuation">):</span>
     <span class="name">base</span> <span class="operator">=</span> <span class="name builtin pseudo">self</span><span class="operator">.</span><span class="name">base</span>
     <span class="keyword">if</span> <span class="name builtin">isinstance</span><span class="punctuation">(</span><span class="name">base</span><span class="punctuation">,</span> <span class="name">GPUData</span><span class="punctuation">):</span>
@@ -2835,7 +2762,6 @@ between 0 and 10 to retain only combinations whose sum is 10. We can of course
 get rid of the 4 loops using itertools, but the code remains slow:</p>
 <pre class="code python literal-block">
 <span class="keyword namespace">import</span> <span class="name namespace">itertools</span> <span class="keyword namespace">as</span> <span class="name namespace">it</span>
-
 <span class="keyword">def</span> <span class="name function">solution_2</span><span class="punctuation">():</span>
     <span class="comment single"># Itertools</span>
     <span class="comment single"># 14641 (=11*11*11*11) iterations &amp; tests</span>
@@ -2924,7 +2850,6 @@ weave package, but doesn't require a separate compile step of C or C++ code.</p>
 <pre class="code python literal-block">
 <span class="keyword namespace">import</span> <span class="name namespace">numpy</span> <span class="keyword namespace">as</span> <span class="name namespace">np</span>
 <span class="keyword namespace">import</span> <span class="name namespace">numexpr</span> <span class="keyword namespace">as</span> <span class="name namespace">ne</span>
-
 <span class="name">a</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">b</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">c</span> <span class="operator">=</span> <span class="name">ne</span><span class="operator">.</span><span class="name">evaluate</span><span class="punctuation">(</span><span class="literal string double">&quot;2*a + 3*b&quot;</span><span class="punctuation">)</span>
@@ -2937,14 +2862,12 @@ Python programming language and the extended Cython programming language (based
 on Pyrex). It makes writing C extensions for Python as easy as Python itself.</p>
 <pre class="code python literal-block">
 <span class="keyword namespace">import</span> <span class="name namespace">numpy</span> <span class="keyword namespace">as</span> <span class="name namespace">np</span>
-
 <span class="keyword">def</span> <span class="name function">evaluate</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">ndarray</span> <span class="name">a</span><span class="punctuation">,</span> <span class="name">np</span><span class="operator">.</span><span class="name">ndarray</span> <span class="name">b</span><span class="punctuation">):</span>
     <span class="name">cdef</span> <span class="name builtin">int</span> <span class="name">i</span>
     <span class="name">cdef</span> <span class="name">np</span><span class="operator">.</span><span class="name">ndarray</span> <span class="name">c</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">zeros_like</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">)</span>
     <span class="keyword">for</span> <span class="name">i</span> <span class="operator word">in</span> <span class="name builtin">range</span><span class="punctuation">(</span><span class="name">a</span><span class="operator">.</span><span class="name">size</span><span class="punctuation">):</span>
         <span class="name">c</span><span class="punctuation">[</span><span class="name">i</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="literal number integer">2</span><span class="operator">*</span><span class="name">a</span><span class="punctuation">[</span><span class="name">i</span><span class="punctuation">]</span> <span class="operator">+</span> <span class="literal number integer">3</span><span class="operator">*</span><span class="name">b</span><span class="punctuation">[</span><span class="name">i</span><span class="punctuation">]</span>
     <span class="keyword">return</span> <span class="name">c</span>
-
 <span class="name">a</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">b</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">c</span> <span class="operator">=</span> <span class="name">evaluate</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">,</span> <span class="name">b</span><span class="punctuation">)</span>
@@ -2960,14 +2883,12 @@ Fortran, without having to switch languages or Python interpreters.</p>
 <pre class="code python literal-block">
 <span class="keyword namespace">from</span> <span class="name namespace">numba</span> <span class="keyword namespace">import</span> <span class="name">jit</span>
 <span class="keyword namespace">import</span> <span class="name namespace">numpy</span> <span class="keyword namespace">as</span> <span class="name namespace">np</span>
-
 <span class="name decorator">&#64;jit</span>
 <span class="keyword">def</span> <span class="name function">evaluate</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">ndarray</span> <span class="name">a</span><span class="punctuation">,</span> <span class="name">np</span><span class="operator">.</span><span class="name">ndarray</span> <span class="name">b</span><span class="punctuation">):</span>
     <span class="name">c</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">zeros_like</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">)</span>
     <span class="keyword">for</span> <span class="name">i</span> <span class="operator word">in</span> <span class="name builtin">range</span><span class="punctuation">(</span><span class="name">a</span><span class="operator">.</span><span class="name">size</span><span class="punctuation">):</span>
         <span class="name">c</span><span class="punctuation">[</span><span class="name">i</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="literal number integer">2</span><span class="operator">*</span><span class="name">a</span><span class="punctuation">[</span><span class="name">i</span><span class="punctuation">]</span> <span class="operator">+</span> <span class="literal number integer">3</span><span class="operator">*</span><span class="name">b</span><span class="punctuation">[</span><span class="name">i</span><span class="punctuation">]</span>
     <span class="keyword">return</span> <span class="name">c</span>
-
 <span class="name">a</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">b</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">c</span> <span class="operator">=</span> <span class="name">evaluate</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">,</span> <span class="name">b</span><span class="punctuation">)</span>
@@ -2984,12 +2905,10 @@ and extensive unit-testing and self-verification.</p>
 <pre class="code python literal-block">
 <span class="keyword namespace">import</span> <span class="name namespace">numpy</span> <span class="keyword namespace">as</span> <span class="name namespace">np</span>
 <span class="keyword namespace">import</span> <span class="name namespace">theano.tensor</span> <span class="keyword namespace">as</span> <span class="name namespace">T</span>
-
 <span class="name">x</span> <span class="operator">=</span> <span class="name">T</span><span class="operator">.</span><span class="name">fvector</span><span class="punctuation">(</span><span class="literal string single">'x'</span><span class="punctuation">)</span>
 <span class="name">y</span> <span class="operator">=</span> <span class="name">T</span><span class="operator">.</span><span class="name">fvector</span><span class="punctuation">(</span><span class="literal string single">'y'</span><span class="punctuation">)</span>
 <span class="name">z</span> <span class="operator">=</span> <span class="literal number integer">2</span><span class="operator">*</span><span class="name">x</span> <span class="operator">+</span> <span class="literal number integer">3</span><span class="operator">*</span><span class="name">y</span>
 <span class="name">f</span> <span class="operator">=</span> <span class="name">function</span><span class="punctuation">([</span><span class="name">x</span><span class="punctuation">,</span> <span class="name">y</span><span class="punctuation">],</span> <span class="name">z</span><span class="punctuation">)</span>
-
 <span class="name">a</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">b</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">c</span> <span class="operator">=</span> <span class="name">f</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">,</span> <span class="name">b</span><span class="punctuation">)</span>
@@ -3004,7 +2923,6 @@ CUDA parallel computation API from Python.</p>
 <span class="keyword namespace">import</span> <span class="name namespace">pycuda.autoinit</span>
 <span class="keyword namespace">import</span> <span class="name namespace">pycuda.driver</span> <span class="keyword namespace">as</span> <span class="name namespace">drv</span>
 <span class="keyword namespace">from</span> <span class="name namespace">pycuda.compiler</span> <span class="keyword namespace">import</span> <span class="name">SourceModule</span>
-
 <span class="name">mod</span> <span class="operator">=</span> <span class="name">SourceModule</span><span class="punctuation">(</span><span class="literal string double">&quot;&quot;&quot;
     __global__ void evaluate(float *c, float *a, float *b)
     {
@@ -3012,13 +2930,10 @@ CUDA parallel computation API from Python.</p>
       c[i] = 2*a[i] + 3*b[i];
     }
 &quot;&quot;&quot;</span><span class="punctuation">)</span>
-
 <span class="name">evaluate</span> <span class="operator">=</span> <span class="name">mod</span><span class="operator">.</span><span class="name">get_function</span><span class="punctuation">(</span><span class="literal string double">&quot;evaluate&quot;</span><span class="punctuation">)</span>
-
 <span class="name">a</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">b</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">c</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">zeros_like</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">)</span>
-
 <span class="name">evaluate</span><span class="punctuation">(</span><span class="name">drv</span><span class="operator">.</span><span class="name">Out</span><span class="punctuation">(</span><span class="name">c</span><span class="punctuation">),</span> <span class="name">drv</span><span class="operator">.</span><span class="name">In</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">),</span> <span class="name">drv</span><span class="operator">.</span><span class="name">In</span><span class="punctuation">(</span><span class="name">b</span><span class="punctuation">),</span> <span class="name">block</span><span class="operator">=</span><span class="punctuation">(</span><span class="literal number integer">400</span><span class="punctuation">,</span><span class="literal number integer">1</span><span class="punctuation">,</span><span class="literal number integer">1</span><span class="punctuation">),</span> <span class="name">grid</span><span class="operator">=</span><span class="punctuation">(</span><span class="literal number integer">1</span><span class="punctuation">,</span><span class="literal number integer">1</span><span class="punctuation">))</span>
 </pre>
 </div>
@@ -3029,18 +2944,14 @@ and other massively parallel compute devices from Python.</p>
 <pre class="code python literal-block">
 <span class="keyword namespace">import</span> <span class="name namespace">numpy</span> <span class="keyword namespace">as</span> <span class="name namespace">np</span>
 <span class="keyword namespace">import</span> <span class="name namespace">pyopencl</span> <span class="keyword namespace">as</span> <span class="name namespace">cl</span>
-
 <span class="name">a</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">b</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">random</span><span class="operator">.</span><span class="name">uniform</span><span class="punctuation">(</span><span class="literal number integer">0</span><span class="punctuation">,</span> <span class="literal number integer">1</span><span class="punctuation">,</span> <span class="literal number integer">1000</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">astype</span><span class="punctuation">(</span><span class="name">np</span><span class="operator">.</span><span class="name">float32</span><span class="punctuation">)</span>
 <span class="name">c</span> <span class="operator">=</span> <span class="name">np</span><span class="operator">.</span><span class="name">empty_like</span><span class="punctuation">(</span><span class="name">a</span><span class="punctuation">)</span>
-
 <span class="name">ctx</span> <span class="operator">=</span> <span class="name">cl</span><span class="operator">.</span><span class="name">create_some_context</span><span class="punctuation">()</span>
 <span class="name">queue</span> <span class="operator">=</span> <span class="name">cl</span><span class="operator">.</span><span class="name">CommandQueue</span><span class="punctuation">(</span><span class="name">ctx</span><span class="punctuation">)</span>
-
 <span class="name">mf</span> <span class="operator">=</span> <span class="name">cl</span><span class="operator">.</span><span class="name">mem_flags</span>
 <span class="name">gpu_a</span> <span class="operator">=</span> <span class="name">cl</span><span class="operator">.</span><span class="name">Buffer</span><span class="punctuation">(</span><span class="name">ctx</span><span class="punctuation">,</span> <span class="name">mf</span><span class="operator">.</span><span class="name">READ_ONLY</span> <span class="operator">|</span> <span class="name">mf</span><span class="operator">.</span><span class="name">COPY_HOST_PTR</span><span class="punctuation">,</span> <span class="name">hostbuf</span><span class="operator">=</span><span class="name">a</span><span class="punctuation">)</span>
 <span class="name">gpu_b</span> <span class="operator">=</span> <span class="name">cl</span><span class="operator">.</span><span class="name">Buffer</span><span class="punctuation">(</span><span class="name">ctx</span><span class="punctuation">,</span> <span class="name">mf</span><span class="operator">.</span><span class="name">READ_ONLY</span> <span class="operator">|</span> <span class="name">mf</span><span class="operator">.</span><span class="name">COPY_HOST_PTR</span><span class="punctuation">,</span> <span class="name">hostbuf</span><span class="operator">=</span><span class="name">b</span><span class="punctuation">)</span>
-
 <span class="name">evaluate</span> <span class="operator">=</span> <span class="name">cl</span><span class="operator">.</span><span class="name">Program</span><span class="punctuation">(</span><span class="name">ctx</span><span class="punctuation">,</span> <span class="literal string double">&quot;&quot;&quot;
     __kernel void evaluate(__global const float *gpu_a;
                            __global const float *gpu_b;
@@ -3050,7 +2961,6 @@ and other massively parallel compute devices from Python.</p>
         gpu_c[gid] = 2*gpu_a[gid] + 3*gpu_b[gid];
     }
 &quot;&quot;&quot;</span><span class="punctuation">)</span><span class="operator">.</span><span class="name">build</span><span class="punctuation">()</span>
-
 <span class="name">gpu_c</span> <span class="operator">=</span> <span class="name">cl</span><span class="operator">.</span><span class="name">Buffer</span><span class="punctuation">(</span><span class="name">ctx</span><span class="punctuation">,</span> <span class="name">mf</span><span class="operator">.</span><span class="name">WRITE_ONLY</span><span class="punctuation">,</span> <span class="name">a</span><span class="operator">.</span><span class="name">nbytes</span><span class="punctuation">)</span>
 <span class="name">evaluate</span><span class="operator">.</span><span class="name">evaluate</span><span class="punctuation">(</span><span class="name">queue</span><span class="punctuation">,</span> <span class="name">a</span><span class="operator">.</span><span class="name">shape</span><span class="punctuation">,</span> <span class="name builtin pseudo">None</span><span class="punctuation">,</span> <span class="name">gpu_a</span><span class="punctuation">,</span> <span class="name">gpu_b</span><span class="punctuation">,</span> <span class="name">gpu_c</span><span class="punctuation">)</span>
 <span class="name">cl</span><span class="operator">.</span><span class="name">enqueue_copy</span><span class="punctuation">(</span><span class="name">queue</span><span class="punctuation">,</span> <span class="name">c</span><span class="punctuation">,</span> <span class="name">gpu_c</span><span class="punctuation">)</span>
