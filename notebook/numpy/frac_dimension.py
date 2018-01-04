@@ -22,11 +22,11 @@ if __name__=='__main__':
     from scipy import misc
     import matplotlib.pyplot as plt
     import matplotlib.patches as patches
-
+    
     z=1.0-misc.imread("https://shrtm.nu/zw04")/255
-
+    
     print(frac_dimension(z, threshold=0.25))
-
+    
     sizes = 128, 64, 32
     xmin, xmax = 0, z.shape[1]
     ymin, ymax = 0, z.shape[0]
