@@ -2,28 +2,6 @@
 # Code vectorization
 ## 1. Introducion
 
-
-```python
-%matplotlib inline
-import numpy as np
-import scipy as sp
-import random
-from IPython.display import HTML, display
-%run talktools.py
-```
-
-
-<style>
-
-.rendered_html
-{
-  color: #2C5494;
-  font-family: Ubuntu;
-  font-size: 140%;
-  line-height: 1.1;
-  margin: 0.5em 0;
-  }
-
 .title
 {
   color: #498AF3;
@@ -141,8 +119,6 @@ padding-bottom: 0.5em;
 </style>
 
 
-
-
 ```python
 def add_python(Z1,Z2):
     return [z1+z2 for (z1,z2) in zip(Z1,Z2)]
@@ -160,24 +136,13 @@ print(add_numpy(Z1,Z2))
 
 ```
 
-    [ 976  242  920 1576 1043  827  766 1300 1126 1444 1597  428  668  993  205
-      948 1511 1108  640  856 1306 1750  266 1074 1380  351  867 1440 1117 1119
-      919 1016 1273 1031  991 1743 1274 1522  933  774  778 1165  226  355 1780
-     1459 1004  950 1405  866  750  714  460  697  802 1256  925 1035  597  873
-      561 1345 1289 1209  973  648  759  541 1499  559  953 1467  750  568  718
-     1264  325  518 1419  863  764 1218 1059  597  624  917  860  198 1468  995
-      823  878  864 1119 1171   81  819 1489 1191 1206]
-    71 ns ± 1.33 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-
-
-
 ```python
 %timeit("add_numpy(Z1,Z2)",globals())
 ```
 
-    70.4 ns ± 0.737 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
-
-
+```python
+70.4 ns ± 0.737 ns per loop (mean ± std. dev. of 7 runs, 10000000 loops each)
+```
 Not only is the second approach faster, but it also naturally adapts to the shape of Z1 and Z2. This is the reason why we did not write Z1 + Z2 because it would not work if Z1 and Z2 were both lists. In the first Python method, the inner + is interpreted differently depending on the nature of the two objects such that if we consider two nested lists, we get the following outputs:
 
 
@@ -200,21 +165,19 @@ The first method concatenates the two lists together, the second method concaten
 ## 2. Uniform vectorization
 Uniform vectorization is the simplest form of vectorization where all the elements share the same computation at every time step with no specific processing for any element. One stereotypical case is the Game of Life that has been invented by John Conway (see below) and is one of the earliest examples of cellular automata. Those cellular automata can be conveniently regarded as an array of cells that are connected together with the notion of neighbours and their vectorization is straightforward. Let me first define the game and we'll see how to vectorize it.    
 
-<figure>
-<img  src=http://www.labri.fr/perso/nrougier/from-python-to-numpy/data/Textile-Cone-cropped.jpg>
-    <figcaption>Conus textile snail exhibits a cellular automaton pattern on its shell. Image by <a href="https://commons.wikimedia.org/wiki/File:Textile_cone.JPG">Richard Ling</a> 2005.</figcaption>
-</figure>
-​    
+![](http://www.labri.fr/perso/nrougier/from-python-to-numpy/data/Textile-Cone-cropped.jpg)
+
+Conus textile snail exhibits a cellular automaton pattern on its shell. Image by Richard Ling 2005.
 
 
 The Game of Life is a cellular automaton. The "game" is actually a zero-player game, meaning that its evolution is determined by its initial state, needing no input from human players. One interacts with the Game of Life by creating an initial configuration and observing how it evolves.
 
 The universe of the Game of Life is an infinite two-dimensional orthogonal grid of square cells, each of which is in one of two possible states, live or dead. Every cell interacts with its eight neighbours, which are the cells that are directly horizontally, vertically, or diagonally adjacent. At each step in time, the following transitions occur:
 ​    
-    1. Any live cell with fewer than two live neighbours dies, as if by needs caused by underpopulation.
-    2. Any live cell with more than three live neighbours dies, as if by overcrowding.
-    3. Any live cell with two or three live neighbours lives, unchanged, to the next generation.
-    4. Any dead cell with exactly three live neighbours becomes a live cell.
+      1. Any live cell with fewer than two live neighbours dies, as if by needs caused by underpopulation.
+      2. Any live cell with more than three live neighbours dies, as if by overcrowding.
+      3. Any live cell with two or three live neighbours lives, unchanged, to the next generation.
+      4. Any dead cell with exactly three live neighbours becomes a live cell.
 
 The initial pattern constitutes the 'seed' of the system. The first generation is created by applying the above rules simultaneously to every cell in the seed – births and deaths happen simultaneously, and the discrete moment at which this happens is sometimes called a tick. (In other words, each generation is a pure function of the one before.) The rules continue to be applied repeatedly to create further generations.    
 
@@ -286,14 +249,6 @@ Z = [[0,0,0,0,0,0],
 output(Z, times=5)
 ```
 
-    1 [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0]]
-    2 [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0]]
-    3 [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0]]
-    4 [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0]]
-    5 [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0], [0, 0, 1, 1, 0, 0], [0, 0, 0, 0, 0, 0]]
-
-
-
 ```python
 
 z = np.array([[0,0,0,0,0,0],
@@ -332,70 +287,6 @@ n[1:-1, 1:-1] += (z[ :-2, :-2] + z[ :-2,1:-1] + z[ :-2,2:] +
                             z[1:-1, :-2]                + z[1:-1,2:] +
                              z[2:  , :-2] + z[2:  ,1:-1] + z[2:  ,2:])
 
-
-```
-
-
-```python
-#import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
-
-
-# Parameters from http://www.aliensaint.com/uo/java/rd/
-# -----------------------------------------------------
-n = 256
-Du, Dv, F, k = 0.16, 0.08, 0.035, 0.065  # Bacteria 1
-# Du, Dv, F, k = 0.14, 0.06, 0.035, 0.065  # Bacteria 2
-# Du, Dv, F, k = 0.16, 0.08, 0.060, 0.062  # Coral
-# Du, Dv, F, k = 0.19, 0.05, 0.060, 0.062  # Fingerprint
-# Du, Dv, F, k = 0.10, 0.10, 0.018, 0.050  # Spirals
-# Du, Dv, F, k = 0.12, 0.08, 0.020, 0.050  # Spirals Dense
-# Du, Dv, F, k = 0.10, 0.16, 0.020, 0.050  # Spirals Fast
-# Du, Dv, F, k = 0.16, 0.08, 0.020, 0.055  # Unstable
-# Du, Dv, F, k = 0.16, 0.08, 0.050, 0.065  # Worms 1
-# Du, Dv, F, k = 0.16, 0.08, 0.054, 0.063  # Worms 2
-# Du, Dv, F, k = 0.16, 0.08, 0.035, 0.060  # Zebrafish
-
-Z = np.zeros((n+2, n+2), [('U', np.double),
-                          ('V', np.double)])
-U, V = Z['U'], Z['V']
-u, v = U[1:-1, 1:-1], V[1:-1, 1:-1]
-
-r = 20
-u[...] = 1.0
-U[n//2-r:n//2+r, n//2-r:n//2+r] = 0.50
-V[n//2-r:n//2+r, n//2-r:n//2+r] = 0.25
-u += 0.05*np.random.uniform(-1, +1, (n, n))
-v += 0.05*np.random.uniform(-1, +1, (n, n))
-
-
-def update(frame):
-    global U, V, u, v, im
-
-    for i in range(10):
-        Lu = (                  U[0:-2, 1:-1] +
-              U[1:-1, 0:-2] - 4*U[1:-1, 1:-1] + U[1:-1, 2:] +
-                                U[2:  , 1:-1])
-        Lv = (                  V[0:-2, 1:-1] +
-              V[1:-1, 0:-2] - 4*V[1:-1, 1:-1] + V[1:-1, 2:] +
-                                V[2:  , 1:-1])
-        uvv = u*v*v
-        u += (Du*Lu - uvv + F*(1-u))
-        v += (Dv*Lv + uvv - (F+k)*v)
-
-    im.set_data(V)
-    im.set_clim(vmin=V.min(), vmax=V.max())
-
-fig = plt.figure(figsize=(4, 4))
-fig.add_axes([0.0, 0.0, 1.0, 1.0], frameon=False)
-im = plt.imshow(V, interpolation='bicubic', cmap=plt.cm.viridis)
-plt.xticks([]), plt.yticks([])
-animation = FuncAnimation(fig, update, interval=10, frames=2000)
-#animation.save('gray-scott-1.mp4', fps=40, dpi=80, bitrate=-1, codec="libx264",
-  #              extra_args=['-pix_fmt', 'yuv420p'],
-    #            metadata={'artist':'Ji Xia'})
-plt.show()
 
 ```
 
